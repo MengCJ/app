@@ -1,80 +1,41 @@
 <template>
-  <div id="app">
-    <div class="top">
-      <div class="top1">
-        <div class="card">
-          <div
-            aria-busy="true"
-            aria-label="Loading"
-            role="progressbar"
-            class="container"
-          >
-            <div class="swing">
-              <div class="swing-l"></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="swing-r"></div>
-            </div>
-            <div class="shadow">
-              <div class="shadow-l"></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="shadow-r"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bottom">
-      <div class="h">
-        <div class="left">
-          <Tree @nodeId="getId"></Tree>
-        </div>
-      </div>
-      <div class="right">
-        <MyCard :list="treeInfo"></MyCard>
-      </div>
-    </div>
+  <div>
+    <div>1212</div>
+    <Index>
+      <!-- 把v-slot的值指定为作⽤域上下⽂对象 -->
+      <template v-slot:default="a">
+        来⾃⼦组件数据：{{ a.testProps }}
+      </template>
+    </Index>
+    <Child1>子组件1</Child1>
+    <Child2>
+      <template v-slot:two>
+        <div>子组件2</div>
+      </template>
+    </Child2>
+    <Child3>
+      <template v-slot:default='b'>
+        {{b.three}}
+      </template>
+    </Child3>
   </div>
 </template>
 
 <script>
-import Tree from "@/components/Tree.vue";
-import MyCard from "@/components/MyCard.vue";
+import Index from "@/components/index.vue";
+import Child1 from "@/components/Child1.vue";
+import Child2 from "@/components/Child2.vue";
+import Child3 from "@/components/Child3.vue";
 export default {
   name: "App",
-  components: {Tree, MyCard },
-  data() {
-    return {
-      childVal: false,
-      current: 1,
-      pageSize: 10,
-      treeInfo: [],
-    };
+  components: {
+    Index,
+    Child1,
+    Child2,
+    Child3,
   },
-  methods: {
-    change() {
-      this.childVal = !this.childVal;
-    },
-    changes(n) {
-      this.current = "Top" + n;
-    },
-    async getId(id) {
-      const { current, pageSize } = this;
-      const data = { current, pageSize, id };
-      const res = await this.$Api.getPostVOByLabelId(data);
-      if (res.code == 0) {
-        this.treeInfo = res.data.records;
-      } else {
-        this.treeInfo = [];
-      }
-    },
+  data() {
+    return {};
   },
 };
 </script>
